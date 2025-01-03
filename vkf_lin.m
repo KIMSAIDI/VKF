@@ -82,7 +82,7 @@ end
 lambda = 0.1;   % volatility learning rate
 v0 = 0.1;       % volatilité initiale
 sigma2 = 0.1;   % Outcome noise variance
-T = 200;        % nombre d'essai
+T = 200;        % nombre d'essais
 
 
 % simuler un état caché qui alterne entre des périodes stables et volatiles
@@ -93,13 +93,13 @@ switch_points = cumsum(volatility_blocks);
 % on génère des états cachés entre +1 et -1
 for t = 1:T
     if t <= switch_points(1)
-        hidden_state(t) = 1; % Stable block 1
+        hidden_state(t) = 1; % Bloc stable 1
     elseif t <= switch_points(2)
-        hidden_state(t) = -1; % Stable block 2
+        hidden_state(t) = -1; % Bloc stable 2
     elseif t <= switch_points(3)
-        hidden_state(t) = 1; % Volatile block 1
+        hidden_state(t) = 1; % Bloc volatile 1
     else
-        hidden_state(t) = -1; % Volatile block 2
+        hidden_state(t) = -1; % Bloc volatile 2
     end
 end
 
@@ -120,6 +120,7 @@ legend('True State', 'Predicted State');
 title('Hidden State and VKF Predictions');
 grid on;
 
+% taux d’apprentissage
 subplot(3, 1, 2);
 plot(1:T, signals.learning_rate, '-', 'LineWidth', 1.5, 'Color', [1, 0.5, 0]);
 xlabel('Trial');
@@ -128,11 +129,12 @@ ylim([0.6, 0.9]);
 title('VKF Learning Rate');
 grid on;
 
+% volatilité estimée
 subplot(3, 1, 3);
 plot(1:T, signals.volatility, '-', 'LineWidth', 1.5, 'Color', [1, 0.5, 0]);
 xlabel('Trial');
 ylabel('Volatility');
-ylim([0, 0.5]);
+ylim([0, 0.60]);
 title('VKF Volatility in Linear Environment');
 grid on;
 

@@ -79,58 +79,57 @@ end
 % Script pour simuler le VKF dans un environnement binaire avec une forte volatilité
 
 % Paramètres
-lambda = 0.2;   % Taux d'apprentissage de la volatilité (augmenté)
-v0 = 0.2;       % Volatilité initiale (augmentée)
-sigma2 = 0.1;   % Variance du bruit sur les observations
-T = 200;        % Nombre d'essais
+lambda = 0.15;   % volatility learning rate
+v0 = 0.1;       % volatilité initiale
+sigma2 = 0.1;   % outcome noise variance
+T = 400;        % nombre d'essais
 
-% Générer un état caché binaire avec des transitions fréquentes
-hidden_state = zeros(T, 1);
+% on génère un état caché binaire avec des transitions fréquentes
+true_states = zeros(T, 1);
+switch_points = sort(randperm(T, 10)); % choisis 10 switch points aléatoirement
+current_state = -1;
 for t = 1:T
-    if mod(t, 20) < 10
-        hidden_state(t) = 0; % Bloc 0
-    else
-        hidden_state(t) = 1; % Bloc 1
+    if ismember(t, switch_points)
+        current_state = -current_state; % switch state
     end
+    true_states(t) = current_state;
 end
 
-% Générer des observations bruitées
-observations = hidden_state + sqrt(sigma2) * randn(T, 1);
-observations = double(observations > 0.5); % Conversion en valeurs binaires (0 ou 1)
+% on génère des observations avec du bruit
+observations = true_states + sqrt(sigma2) * randn(T, 1);
+observations = double(observations > 0.5); % conversion en valeurs binaires (0 ou 1)
 
-% Application du VKF
+% VKF
 [predictions, signals] = vkf(observations, lambda, v0, sigma2);
 
-% Visualization of the results
-figure('Position', [100, 100, 1200, 600]);
-
-% hidden state and VKF predictions
+% ----- plot -----
+figure('Position', [100, 100, 1200, 600]); 
 subplot(3, 1, 1);
-plot(1:T, hidden_state, 'b--', 'LineWidth', 1, 'DisplayName', 'True State'); hold on;
+plot(1:T, true_states, 'b--', 'LineWidth', 1, 'DisplayName', 'True State'); hold on;
 plot(1:T, predictions, '-', 'LineWidth', 1, 'DisplayName', 'VKF Predictions', 'Color', [1, 0.5, 0]);
 xlabel('Trial');
 ylabel('State');
 ylim([-0.3, 1.3]); yticks([0 1]);
-yticklabels({'0', '1'}); % Binary state labels
+yticklabels({'0', '1'}); 
 legend('Location', 'Best');
 title('Hidden State and VKF Predictions');
 grid on;
 
-% VKF learning rate
+% taux d’apprentissage
 subplot(3, 1, 2);
 plot(1:T, signals.learning_rate, '-', 'LineWidth', 1.5, 'Color', [1, 0.5, 0]);
 xlabel('Trial');
 ylabel('Learning Rate');
-ylim([0.6, 0.9]); % Adjusted limits for high volatility
+ylim([0.47, 0.85]);
 title('VKF Learning Rate');
 grid on;
 
-% volatility estimated by VKF
+% volatilité estimée
 subplot(3, 1, 3);
 plot(1:T, signals.volatility, '-', 'LineWidth', 1.5, 'Color', [1, 0.5, 0]);
 xlabel('Trial');
 ylabel('Volatility');
-ylim([0, 0.6]); % Adjusted limits for high volatility
+ylim([0, 0.3]); 
 title('Volatility Estimated by VKF');
 grid on;
 

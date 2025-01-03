@@ -81,7 +81,7 @@ end
 lambda = 0.1;   % volatility learning rate
 v0 = 0.1;       % volatilité initiale
 sigma2 = 0.1;   % Outcome noise variance
-T = 200;        % nombre d'essai
+T = 200;        % nombre d'essais
 
 
 
@@ -111,7 +111,6 @@ observations = double(observations > 0.5); % on convertit en valeurs binaires (0
 [predictions, signals] = vkf(observations, lambda, v0, sigma2);
 
 
-
 % plot 
 figure('Position', [100, 100, 1200, 600]); 
 
@@ -127,7 +126,7 @@ legend('Location', 'Best');
 title('Hidden State and VKF Predictions');
 grid on;
 
-% taux d’apprentissage du VKF
+% taux d’apprentissage
 subplot(3, 1, 2);
 plot(1:T, signals.learning_rate, '-', 'LineWidth', 1.5, 'Color', [1, 0.5, 0]);
 xlabel('Trial');
@@ -136,7 +135,7 @@ ylim([0.5, 0.79]);
 title('VKF Learning Rate');
 grid on;
 
-% volatilité estimée par le VKF
+% volatilité estimée 
 subplot(3, 1, 3);
 plot(1:T, signals.volatility, '-', 'LineWidth', 1.5, 'Color', [1, 0.5, 0]);
 xlabel('Trial');

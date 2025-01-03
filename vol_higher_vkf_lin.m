@@ -78,32 +78,34 @@ end
 
 % Script pour simuler le VKF dans un environnement linéaire avec forte volatilité
 
-% Paramètres ajustés
-lambda = 0.15;   % Taux d'apprentissage de la volatilité
-v0 = 0.1;        % Volatilité initiale
-sigma2 = 0.1;    % Variance du bruit sur les observations
-T = 200;         % Nombre d'essais
+% parameters
+lambda = 0.15;   % volatility learning rate
+v0 = 0.1;        % volatilité initiale
+sigma2 = 0.1;    % outcome noise variance
+T = 400;         % nombre d'essais
 
-% Transitions fréquentes dans l'état caché
-hidden_state = zeros(T, 1);
+% transitions fréquentes dans l'état caché
+true_states = zeros(T, 1);
+switch_points = sort(randperm(T, 10)); % choisis 10 switch points aléatoirement
+current_state = -1;
 for t = 1:T
-    if mod(t, 20) < 10
-        hidden_state(t) = 1; % Bloc positif
-    else
-        hidden_state(t) = -1; % Bloc négatif
+    if ismember(t, switch_points)
+        current_state = -current_state; % switch state
     end
+    true_states(t) = current_state;
 end
 
-% Génération des observations bruitées
-observations = hidden_state + sqrt(sigma2) * randn(T, 1);
 
-% Application du VKF
+% on génère des observations avec du bruit
+observations = true_states  + sqrt(sigma2) * randn(T, 1);
+
+% VKF
 [predictions, signals] = vkf(observations, lambda, v0, sigma2);
 
-% plot
+% ----- plot -----
 figure;
 subplot(3, 1, 1);
-plot(1:T, hidden_state, 'b--', 'LineWidth', 1); hold on;
+plot(1:T, true_states , 'b--', 'LineWidth', 1); hold on;
 plot(1:T, predictions, '-', 'LineWidth', 1., 'Color', [1, 0.5, 0]);
 xlabel('Trial');
 ylabel('State');
@@ -111,6 +113,7 @@ legend('True State', 'Predicted State');
 title('Hidden State and VKF Predictions');
 grid on;
 
+% taux d’apprentissage
 subplot(3, 1, 2);
 plot(1:T, signals.learning_rate, '-', 'LineWidth', 1.5, 'Color', [1, 0.5, 0]);
 xlabel('Trial');
@@ -119,11 +122,12 @@ ylim([0.65, 0.95]);
 title('VKF Learning Rate');
 grid on;
 
+% volatilité estimée
 subplot(3, 1, 3);
 plot(1:T, signals.volatility, '-', 'LineWidth', 1.5, 'Color', [1, 0.5, 0]);
 xlabel('Trial');
 ylabel('Volatility');
-ylim([0, 1.24]); 
+ylim([0, 1]); 
 title('VKF Volatility');
 grid on;
 

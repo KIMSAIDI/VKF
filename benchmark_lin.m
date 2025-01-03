@@ -82,7 +82,8 @@ end
 lambda = 0.1;   % volatility learning rate
 v0 = 0.1;       % volatilité initiale
 sigma2 = 0.1;   % Outcome noise variance
-T = 200;        % nombre d'essai
+T = 200;        % nombre d'essais
+num_particles = 10000; % nombre de particules
 
 
 % simuler un état caché qui alterne entre des périodes stables et volatiles
@@ -93,13 +94,13 @@ switch_points = cumsum(volatility_blocks);
 % on génère des états cachés entre +1 et -1
 for t = 1:T
     if t <= switch_points(1)
-        hidden_state(t) = 1; % Stable block 1
+        hidden_state(t) = 1; % Bloc stable 1
     elseif t <= switch_points(2)
-        hidden_state(t) = -1; % Stable block 2
+        hidden_state(t) = -1; % Bloc stable 2
     elseif t <= switch_points(3)
-        hidden_state(t) = 1; % Volatile block 1
+        hidden_state(t) = 1; % Bloc volatile 1
     else
-        hidden_state(t) = -1; % Volatile block 2
+        hidden_state(t) = -1; % Bloc volatile 2
     end
 end
 
@@ -138,26 +139,26 @@ end
 figure('Position', [100, 100, 1200, 600]); 
 sgtitle('Comparison of VKF with the Benchmark Sampling Method in Linear Environement', 'FontSize', 14, 'FontWeight', 'Bold');
 
-% VKF: Volatility and Predictions
+% VKF: volatilité et prédictions 
 subplot(2, 2, 1);
-plot(1:T, signals_vkf.volatility, '-', 'LineWidth', 1., 'Color', [1, 0.5, 0]);
+plot(1:T, signals.volatility, '-', 'LineWidth', 1., 'Color', [1, 0.5, 0]); 
 title('VKF Volatility');
 xlabel('Trials');
 ylabel('Volatility');
 grid on;
 
 subplot(2, 2, 2);
-plot(1:T, predictions_vkf, '-', 'LineWidth', 1., 'Color', [1, 0.5, 0]);
+plot(1:T, predictions, '-', 'LineWidth', 1., 'Color', [1, 0.5, 0]); 
 hold on;
 plot(1:T, hidden_state, 'b--', 'LineWidth', 1.);
 title('VKF Predictions');
 xlabel('Trials');
 ylabel('Prediction');
-ylim([-0.3, 1.3]); yticks([0 1]);
+ylim([-1.3, 1.3]); yticks([-1 1]); 
 legend('VKF Prediction', 'True State');
 grid on;
 
-% Particle Filter: Volatility and Predictions
+% filtre particulaire : volatilité et prédictions 
 subplot(2, 2, 3);
 plot(1:T, volatility_pf, '-', 'LineWidth', 1., 'Color', [1, 0.5, 0]);
 title('Benchmark Volatility');
@@ -172,6 +173,6 @@ plot(1:T, hidden_state, 'b--', 'LineWidth', 1);
 title('Benchmark Predictions');
 xlabel('Trials');
 ylabel('Prediction');
-ylim([-0.3, 1.3]); yticks([0 1]);
+ylim([-1.3, 1.3]); yticks([-1 1]);
 legend('PF Prediction', 'True State');
 grid on;
