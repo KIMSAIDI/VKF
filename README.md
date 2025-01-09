@@ -13,10 +13,10 @@ Ce projet est encadré par **Mehdi Khamassi**, chercheur spécialisé en robotiq
 
 ## Structure du projet
 
-- **vkf_lin/** : Contient le script pour reproduire la simulation du VKF dans un environnement linéaire.
-- **vkf_bin/** : Contient le script pour reproduire la simulation du VKF dans un environnement binaire.
-- **vol_higher_vkf_lin/** :  Contient le script pour reproduire la simulation du VKF avec une volatilité élevé dans un environnement linéaire.
-- **vol_higher_vkf_bin/** :  Contient le script pour reproduire la simulation du VKF avec une volatilité élevé dans un environnement binaire.
-- **benchmark_lin/** :  Contient le script pour reproduire la simulation du VKF ainsi qu'un benchmark pour comparer les deux dans un environnement linéaire.
-- **benchmark_bin/** :  Contient le script pour reproduire la simulation du VKF ainsi qu'un benchmark pour comparer les deux dans un environnement binaire.
+- **vkf_lin.m** : Contient le script pour reproduire la simulation du VKF dans un environnement linéaire.
+- **vkf_bin.m** : Contient le script pour reproduire la simulation du VKF dans un environnement binaire.
+- **vol_higher_vkf_lin.m** :  Contient le script pour reproduire la simulation du VKF avec une volatilité élevé dans un environnement linéaire.
+- **vol_higher_vkf_bin.m** :  Contient le script pour reproduire la simulation du VKF avec une volatilité élevé dans un environnement binaire.
+- **benchmark_lin.m** :  Contient le script pour reproduire la simulation du VKF ainsi qu'un benchmark pour comparer les deux dans un environnement linéaire.
+- **benchmark_bin.m** :  Contient le script pour reproduire la simulation du VKF ainsi qu'un benchmark pour comparer les deux dans un environnement binaire.
 - **README.md** : Document expliquant le projet et son contexte.
