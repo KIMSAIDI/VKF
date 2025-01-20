@@ -29,7 +29,7 @@ classdef Main2 < handle
             obj.phi = phi;
             obj.mu = mu0 * ones(1, narms);
             obj.var = var0 * ones(1, narms);
-           % obj.var_ob = var_ob;
+            %obj.var_ob = var_ob;
             %obj.var_tr = var_tr;
             obj.beta = 0;
             obj.rbar = 0;
