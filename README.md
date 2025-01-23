@@ -23,7 +23,6 @@ Dans le fichier **simulation_article** on retrouve les fichiers suivants :
 - **vol_higher_vkf_bin.m** :  Contient le script pour reproduire la simulation du VKF avec une volatilité élevé dans un environnement binaire.
 - **benchmark_lin.m** :  Contient le script pour reproduire la simulation du VKF ainsi qu'un benchmark pour comparer les deux dans un environnement linéaire.
 - **benchmark_bin.m** :  Contient le script pour reproduire la simulation du VKF ainsi qu'un benchmark pour comparer les deux dans un environnement binaire.
-- **README.md** : Document expliquant le projet et son contexte.
 
 
 Dans le fichier **simulation_multi_armed_bandits** on retrouve les fichiers suivants :
