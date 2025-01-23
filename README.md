@@ -13,6 +13,7 @@ Ce projet est encadré par **Mehdi Khamassi**, chercheur spécialisé en robotiq
 
 ## Structure du projet
 
+Dans le fichier **simulation_article** on retrouve les fichiers suivants :
 - **vkf_lin.m** : Contient le script pour reproduire la simulation du VKF dans un environnement linéaire.
 - **vkf_bin.m** : Contient le script pour reproduire la simulation du VKF dans un environnement binaire.
 - **vol_higher_vkf_lin.m** :  Contient le script pour reproduire la simulation du VKF avec une volatilité élevé dans un environnement linéaire.
