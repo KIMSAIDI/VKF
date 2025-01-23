@@ -1,27 +1,30 @@
-function main_mlb_kf()
+function simulate()
     block_size = 100;
     iterations = 10;
     noise_std = 0.2;
    
+    % environnement continus
     sequence = generate_continuous_sequence(block_size, iterations, noise_std); % sequence où la récompense de base change tous les block_size pas de temps -> introduit de la variabilité
-   
+    
     % ----- MLB_KF -----
 
-    % agent Main2 (multi-armed bandit)
-    agent = Main2(2, 0.14, 1/15, 1/350, 0.44, 1.5, 0.5, 0.5, 0.05, 0.1); % changement des variables var_ob et var_tr
-
+    % agent bandits (multi-armed bandit)
+    agent = bandits(2, 0.14, 1/15, 1/350, 0.44, 1.5, 0.5, 0.5, 0.05, 0.1); % changement des variables var_ob et var_tr
+    
+   
     % initialisation des tableaux pour Main2
     T = length(sequence);
     predictions = zeros(1, T);
     volatilities = zeros(1, T);
     learning_rates = zeros(1, T);
 
-    % simulation pour Main2
+    % simulation pour bandits
     for t = 1:T
-        agent.decide();
-        predictions(t) = agent.mu(1); % prédiction pour le premier bras
-        volatilities(t) = agent.var(1); % volatilité associée au premier bras
-        learning_rates(t) = agent.var(1) / (agent.var(1) + agent.var_ob);
+        agent.decide(); % choix d'une action (bras) basé sur softmax
+        predictions(t) = agent.mu(1); % estimation de récompense 
+        volatilities(t) = agent.var(1); % incertitude 
+        learning_rates(t) = agent.var(1) / (agent.var(1) + agent.var_ob); % taux d'app
+        
         % update de l'agent avec la récompense
         agent.update(sequence(t));
     end
@@ -34,7 +37,8 @@ function main_mlb_kf()
     sigma2 = 0.1; % variance du bruit
 
     sequence = sequence(:); % Convertir en vecteur colonne
-    % Simulation pour le VKF
+    
+    % simulation pour le VKF
     [vkf_predictions, vkf_signals] = vkf(sequence, lambda, v0, sigma2);
 
     % ----- plot -----
@@ -185,3 +189,5 @@ function sequence = generate_continuous_sequence(block_size, iterations, noise_s
         sequence(start_idx:end_idx) = base_value + noise_std * randn(1, block_size);
     end
 end
+
+
