@@ -27,10 +27,6 @@ Dans le fichier **simulation_article** on retrouve les fichiers suivants :
 
 
 Dans le fichier **simulation_multi_armed_bandits** on retrouve les fichiers suivants :
-- **bandits.m** : Contient le code du multi armed bandit, traduction du code en .m de l'algorithme proposé par l'article **Bridging Computational Neuroscience and Machine Learning on Non-Stationary Multi-Armed Bandits**
+- **bandits.m** : Contient le code du multi armed bandit, traduction du code en .m de l'algorithme proposé par https://github.com/GeoVelentzas/intellisys-2017-mab-mlbkf
+- **Main21** : Contient le code du fichier **bandits** mais avec une adaptation de la volatilité pour que celle-ci soit adaptative
 - **simulate.m** : contient le code pour la simulation du code
-
-Dans le fichier **VKF_with_bandits** on retrouve les fichiers suivants :
-- **Main21** : Contient le code du multi armed bandit proposé par : https://github.com/GeoVelentzas/intellisys-2017-mab-mlbkf avec une adaptation de la volatilité pour que celle-ci soit adaptative
-- **simulation** : Contient le code pour tester le code précédent
-- **simulation_tmp** : Comme le fichier **simulation** mais avec le calcul des temps d’exécution, l’utilisation des CPU, ainsi que la mémoire requise
